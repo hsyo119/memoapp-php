@@ -1,6 +1,6 @@
 <?php
-
-if (!isset($_SESSION)) {
+// セッションが開始されていなければ開始
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
@@ -19,18 +19,13 @@ function isLogin() {
 function getLoginUserName() {
     if (isset($_SESSION['user'])) {
         $name = $_SESSION['user']['name'];
-
         if (mb_strlen($name) > 7) {
             $name = mb_substr($name, 0, 7) . "...";
         }
-
         return $name;
     }
-
     return "";
 }
-
-mb_substr('こんにちは世界', 0, 5); // => こんにちは
 
 /**
  * ログインしているユーザーIDを取得する
@@ -39,6 +34,6 @@ mb_substr('こんにちは世界', 0, 5); // => こんにちは
 function getLoginUserId() {
     return $_SESSION['user']['id'] ?? null;
 }
-
 ?>
+
 

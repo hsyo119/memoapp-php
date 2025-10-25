@@ -3,7 +3,7 @@ services:
     image: nginx:1.19.1
     container_name: php_simple_memo_nginx
     ports:
-      - 8080:8080
+      - 8080:80
     depends_on:
       - php
       - db

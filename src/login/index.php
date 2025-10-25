@@ -2,6 +2,12 @@
 <html lang="ja">
     <?php
         session_start();
+        require '../common/auth.php';
+
+        if (isLogin()) {
+        header('Location: ../memo/');
+        exit;
+    }
         include_once "../common/header.php";
         echo getHeader("ログイン");
     ?>
