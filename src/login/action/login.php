@@ -41,9 +41,31 @@ if ($statement = $database_handler->prepare('SELECT id, name, password FROM user
     }
 
     $_SESSION['user'] = [
-        'name' => $user['name'],
-        'id' => $user['id']
-    ];
+    'name' => $user['name'],
+    'id'   => $user['id']
+];
+
+
+     // 更新日が最新のメモ情報を保持
+    if ($statement = $database_handler->prepare(
+        "SELECT id, title, content
+           FROM memos
+          WHERE user_id = :user_id
+          ORDER BY updated_at DESC
+          LIMIT 1"
+    )) {
+        $statement->bindParam(":user_id",$user['id']);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            $_SESSION['select_memo'] = [
+                'id'      => $result['id'],
+                'title'   => $result['title'],
+                'content' => $result['content']
+            ];
+        }
+    }
 
     header('Location: ../../memo/');
     exit;
